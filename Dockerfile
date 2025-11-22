@@ -1,5 +1,7 @@
 # Base image using Node.js 20 LTS Alpine for a lightweight and secure environment
 FROM node:20-alpine AS base
+# Set the max memory to 4GB for all subsequent stages
+ENV NODE_OPTIONS=--max-old-space-size=4096
 WORKDIR /opt/app
 
 # --- Build Stage ---
@@ -9,8 +11,6 @@ ENV NODE_ENV=development
 COPY package.json package-lock.json* ./
 RUN npm install
 COPY . .
-# Set the max memory to 4GB
-ENV NODE_OPTIONS=--max-old-space-size=4096
 RUN npm run build
 
 # --- Production Stage ---
@@ -21,9 +21,9 @@ ENV NODE_ENV=production
 COPY package.json package-lock.json* ./
 RUN npm install --production
 # Copy the built application artifacts from the 'builder' stage.
+# The 'dist' directory contains all the compiled code, including configurations.
 COPY --from=builder /opt/app/dist ./dist
-COPY --from=builder /opt/app/config ./config
-COPY --from=builder /opt/app/database ./database
+# Copy other necessary assets.
 COPY --from=builder /opt/app/public ./public
 COPY --from=builder /opt/app/.strapi ./.strapi
 
