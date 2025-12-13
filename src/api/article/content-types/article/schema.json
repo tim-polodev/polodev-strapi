@@ -33,21 +33,6 @@
         }
       }
     },
-    "cover": {
-      "type": "media",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "multiple": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
-    },
     "MDContent": {
       "type": "richtext",
       "pluginOptions": {
@@ -64,19 +49,16 @@
         }
       }
     },
-    "mediaAssets": {
+    "cover": {
       "type": "media",
       "pluginOptions": {
         "i18n": {
-          "localized": true
+          "localized": false
         }
       },
-      "multiple": true,
+      "multiple": false,
       "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
+        "images"
       ]
     }
   }
