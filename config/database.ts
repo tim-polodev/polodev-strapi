@@ -44,7 +44,18 @@ export default ({ env }) => {
     },
     sqlite: {
       connection: {
-        filename: path.join(__dirname, '..', '..', env('DATABASE_FILENAME', '.tmp/data.db')),
+        filename: (() => {
+          const filename = env('DATABASE_FILENAME', '.tmp/data.db');
+          const projectRoot = path.resolve(__dirname, '..', '..');
+          const resolvedPath = path.resolve(projectRoot, filename);
+
+          if (resolvedPath.startsWith(projectRoot)) {
+            return resolvedPath;
+          }
+          
+          const safeFilename = path.basename(filename);
+          return path.join(projectRoot, '.tmp', safeFilename);
+        })(),
       },
       useNullAsDefault: true,
     },
